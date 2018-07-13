@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Flex, Box, Dot, Heading } from 'rebass';
+import { Flex, Box, Dot, Link } from 'rebass';
 
-import { fetchArticles } from '../../store/actions';
+import { fetchArticles, removeArticle } from '../../store/actions';
 
 const mapStateToProps = state => ({ articles: state.articles });
 
 const mapDispatchToProps = {
   fetchArticles,
+  removeArticle,
 };
 
 class ConnectedArticleList extends Component {
@@ -20,6 +21,7 @@ class ConnectedArticleList extends Component {
       }),
     ),
     fetchArticles: PropTypes.func.isRequired,
+    removeArticle: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -32,19 +34,36 @@ class ConnectedArticleList extends Component {
     fetchArticles();
   }
 
+  removeArticle = id => () => {
+    const { removeArticle } = this.props;
+
+    removeArticle(id);
+  };
+
   render() {
     const { articles } = this.props;
 
     if (articles.length === 0) {
-      return <Box my={4} fontSize={3}>Loading...</Box>;
+      return (
+        <Box my={4} fontSize={3}>
+          Loading...
+        </Box>
+      );
     } else {
       return (
         <Flex justifyContent="center">
           <Box my={4}>
-            {articles.map(el => (
-              <Flex alignItems="center" key={el.id}>
+            {articles.map(article => (
+              <Flex alignItems="center" key={article.id}>
                 <Dot bg="#0067ee" hover={{ bg: '#0067ee' }} focus={{ bg: '#0067ee' }} size={18} />
-                <Box ml={1} my={2} fontSize={3} key={el.id}>{el.title}</Box>
+                <Box ml={1} my={2} fontSize={3} key={article.id}>
+                  {article.title}
+                </Box>
+                <Box ml={2} fontSize={1}>
+                  <Link href="#!" onClick={this.removeArticle(article.id)}>
+                    remove
+                  </Link>
+                </Box>
               </Flex>
             ))}
           </Box>

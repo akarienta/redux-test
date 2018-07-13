@@ -37,8 +37,9 @@ class ConnectedAddArticleForm extends Component {
     const { title } = this.state;
     const { addArticle } = this.props;
     const id = uuidv1();
+    const timestamp = new Date().valueOf();
 
-    addArticle({ title, id });
+    addArticle({ title, id, timestamp });
     this.setState({ title: '' });
   }
 
