@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Flex, Box, Dot, Heading } from 'rebass';
 
 import { fetchArticles } from '../../store/actions';
-import { LeftLi } from './styles';
 
 const mapStateToProps = state => ({ articles: state.articles });
 
@@ -36,9 +36,20 @@ class ConnectedArticleList extends Component {
     const { articles } = this.props;
 
     if (articles.length === 0) {
-      return <div>Loading...</div>;
+      return <Box my={4} fontSize={3}>Loading...</Box>;
     } else {
-      return <ul>{articles.map(el => <LeftLi key={el.id}>{el.title}</LeftLi>)}</ul>;
+      return (
+        <Flex justifyContent="center">
+          <Box my={4}>
+            {articles.map(el => (
+              <Flex alignItems="center" key={el.id}>
+                <Dot bg="#0067ee" hover={{ bg: '#0067ee' }} focus={{ bg: '#0067ee' }} size={18} />
+                <Box ml={1} my={2} fontSize={3} key={el.id}>{el.title}</Box>
+              </Flex>
+            ))}
+          </Box>
+        </Flex>
+      );
     }
   }
 }

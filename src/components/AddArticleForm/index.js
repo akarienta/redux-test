@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import uuidv1 from 'uuid';
+import { Input, Button } from 'rebass';
 
 import { addArticle } from '../../store/actions';
+import { CenteredFlex } from './styles';
 
 const mapDispatchToProps = {
   addArticle,
@@ -45,10 +47,16 @@ class ConnectedAddArticleForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <div>
-          <input id="title" type="text" value={title} onChange={this.handleChange} />
-          <button type="submit">Save</button>
-        </div>
+        <CenteredFlex width={[8 / 10, 6 / 10, 1 / 2]}>
+          <Input
+            placeholder="Name of a new article"
+            id="title"
+            value={title}
+            mr={2}
+            onChange={this.handleChange}
+          />
+          <Button type="submit">Save</Button>
+        </CenteredFlex>
       </form>
     );
   }
